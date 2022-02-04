@@ -36,7 +36,7 @@ public class Main {
 		
 // User Account Page
 		DatabaseConnectionService dcs = new DatabaseConnectionService("titan.csse.rose-hulman.edu", "LoZUTracker");
-		dcs.connect("henderae", "a1T20h8e5n14a1");
+		dcs.connect("ritenojb", "tardis1963");
 		
 		String usern = "user1";
 		UserService us = new UserService(dcs);
@@ -112,12 +112,42 @@ public class Main {
 		changeItems.addActionListener(e -> {
 			us.updateUserItems(usern, itemSelect.getSelectedItem().toString(), Integer.valueOf(quantity.getText()));
 		});
+		
 		optionsBIG.add(updateItem);
 		updateItem.add(item);
 		updateItem.add(itemSelect);
 		updateItem.add(quant);
 		updateItem.add(quantity);
 		updateItem.add(changeItems);
+		
+		JPanel addQuestPanel = new JPanel();
+		JLabel questLabel = new JLabel("Quests:");
+		JComboBox questOptions = new JComboBox();
+		for(String quest : ds.getQuests()) {
+			questOptions.addItem(quest);
+		}
+		JButton completeQuest = new JButton("Complete Quest");
+		completeQuest.addActionListener(e -> {
+			us.addToUserQuests(usern, questOptions.getSelectedItem().toString());
+		});
+		optionsBIG.add(addQuestPanel);
+		addQuestPanel.add(questLabel);
+		addQuestPanel.add(questOptions);
+		addQuestPanel.add(completeQuest);
+		JPanel addDungeonPanel = new JPanel();
+		JLabel dungeonLabel = new JLabel("Dungeons:");
+		JComboBox dungeonOptions = new JComboBox();
+		for(String dungeon : ds.getDungeons()) {
+			dungeonOptions.addItem(dungeon);
+		}
+		JButton completeDungeon = new JButton("Complete Dungeon");
+		completeDungeon.addActionListener(e ->{
+			us.addToUserDungeons(usern, dungeonOptions.getSelectedItem().toString());
+		});
+		optionsBIG.add(addDungeonPanel);
+		addDungeonPanel.add(dungeonLabel);
+		addDungeonPanel.add(dungeonOptions);
+		addDungeonPanel.add(completeDungeon);
 		optionsBIG.setLayout(new BoxLayout(optionsBIG, BoxLayout.Y_AXIS));
 		account.setVisible(true);
 		
