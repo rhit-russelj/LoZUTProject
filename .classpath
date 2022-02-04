@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Athena&apos;s Files"/>
+	<classpathentry kind="src" path="Campbell&apos;s Files"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
