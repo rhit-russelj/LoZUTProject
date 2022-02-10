@@ -58,9 +58,8 @@ private DatabaseConnectionService dbService = null;
 	
 	public boolean execIDFunc(String func, int id1) {
 		try {
+			// Using table-valued parameter with a SQLServerCallableStatement. 			
 			CallableStatement cstmt = this.dbService.getConnection().prepareCall(func);
-			cstmt.setInt(1, id1);
-			cstmt.registerOutParameter(1, Types.INTEGER);
 			ResultSet result = cstmt.executeQuery();
 			if(result.equals(null)) {
 				System.err.println("ERROR: Something went wrong in executing the stored procedure! ID1:" + id1);
