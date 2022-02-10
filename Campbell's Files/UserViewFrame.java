@@ -22,10 +22,12 @@ public class UserViewFrame extends JFrame implements ActionListener{
 	private JButton searchButton;
 	private JButton editButton;
 	
-	private UserService uservice = null;
-	private String username = "testuser1";
-
+	//Connectivity Services
 	private DatabaseConnectionService dbcs;
+	private UserService uservice = null;
+	
+	//TODO: Change this
+	private String username = "testuser1";
 	
 	public UserViewFrame(DatabaseConnectionService dbcs){
 		//Set up connectivity
@@ -53,6 +55,7 @@ public class UserViewFrame extends JFrame implements ActionListener{
         searchcons.anchor = GridBagConstraints.EAST;
         searchcons.insets = new Insets(0,0,0,7); //right margin
         this.searchButton = new JButton("Search");
+        this.searchButton.addActionListener(this);
         navPanel.add(this.searchButton, searchcons);
         
         GridBagConstraints editcons = new GridBagConstraints();
@@ -60,6 +63,7 @@ public class UserViewFrame extends JFrame implements ActionListener{
         editcons.anchor = GridBagConstraints.EAST;
         editcons.insets = new Insets(0,0,0,2); //right margin
         this.editButton = new JButton("Edit");
+        this.editButton.addActionListener(this);
         navPanel.add(this.editButton, editcons);
         
         this.add(navPanel, BorderLayout.NORTH);
@@ -128,8 +132,14 @@ public class UserViewFrame extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource() == this.viewButton) {
-			this.switchTable();
+		if(arg0.getSource() == this.editButton) {
+		    this.dispose();
+		    UserEditFrame uef = new UserEditFrame(this.dbcs);
+		    uef.setVisible(true);
+		} else {
+			if(arg0.getSource() == this.viewButton) {
+				this.switchTable();
+			}
 		}
 			
 	}
