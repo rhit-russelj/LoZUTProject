@@ -41,6 +41,7 @@ public class Main {
 		String usern = "user1";
 		UserService us = new UserService(dcs);
 		DropdownService ds = new DropdownService(dcs);
+		ViewAllUserChanges v = new ViewAllUserChanges(dcs);
 
 		JFrame account = new JFrame();
 		account.setSize(800, 800);
@@ -151,7 +152,15 @@ public class Main {
 		optionsBIG.setLayout(new BoxLayout(optionsBIG, BoxLayout.Y_AXIS));
 		account.setVisible(true);
 		
+		JPanel viewUserInputs = new JPanel();
+		JLabel inputsLabel = new JLabel("User Inputs:");
+		JButton viewInputs = new JButton("View");
+		viewInputs.addActionListener(e ->{
+			v.showInputsTable(usern);
+		});
 		
+		optionsBIG.add(viewUserInputs);
+		viewUserInputs.add(inputsLabel);
 	}
 
 }

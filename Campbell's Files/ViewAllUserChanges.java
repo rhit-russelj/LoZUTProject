@@ -101,4 +101,10 @@ private DatabaseConnectionService dbService = null;
 	    return new DefaultTableModel(data, columnNames);
 
 	}
+
+
+	public void showInputsTable(String usern) {
+		// TODO Auto-generated method stub
+		
+	}
 }
