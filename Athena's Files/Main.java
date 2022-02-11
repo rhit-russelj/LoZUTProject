@@ -9,6 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import services.DatabaseConnectionService;
+import services.DropdownService;
+import services.UserService;
+
 public class Main {
 	
 	public static void main(String args[]) {
@@ -161,6 +165,7 @@ public class Main {
 		
 		optionsBIG.add(viewUserInputs);
 		viewUserInputs.add(inputsLabel);
+		viewUserInputs.add(viewInputs);
 	}
 
 }

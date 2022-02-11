@@ -1,1 +1,1 @@
-EXEC [AddGameAndNPCs] 'BoTW', 2030, 'timelineEra', 7, 'Switch', 'Boss2', 'Hello Boss 2'  
+EXEC [AddGameAndNPCs] 'BoTW2', 2040, 'timelineEraaaa', 4, 'Nintendo Switch', 'TestNPC', 'Just a bystander'  

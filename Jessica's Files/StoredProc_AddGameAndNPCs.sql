@@ -16,6 +16,41 @@ BEGIN
 			RETURN 1
 	END
 
+	if(@PublishYear is null)
+	BEGIN
+			RAISERROR('Publish year cannot be null.', 1, 1)
+			RETURN 1
+	END
+
+	if(@TimelineEra is null)
+	BEGIN
+			RAISERROR('Timeline era cannot be null.', 1, 1)
+			RETURN 1
+	END
+
+	if(@TimelineNumber is null)
+	BEGIN
+			RAISERROR('Timeline Number cannot be null.', 1, 1)
+			RETURN 1
+	END
+
+	if(@System is null)
+	BEGIN
+			RAISERROR('System cannot be null.', 1, 1)
+			RETURN 1
+	END
+
+	if(@NPCName is null)
+	BEGIN
+			RAISERROR('NPC name cannot be null.', 1, 1)
+			RETURN 1
+	END
+
+	if(@NPCDescription is null)
+	BEGIN
+			RAISERROR('NPC Description cannot be null.', 1, 1)
+			RETURN 1
+	END
 
 	INSERT INTO [Game](PublishYear,[Name],TimelineEra,TimelineNumber,[System]) 
 	VALUES (@PublishYear, @GameName, @TimelineEra, @TimelineNumber, @System);

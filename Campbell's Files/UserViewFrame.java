@@ -21,6 +21,7 @@ public class UserViewFrame extends JFrame implements ActionListener{
 	private JButton viewButton;
 	private JButton searchButton;
 	private JButton editButton;
+	private JButton anonModeButton;
 	
 	//Connectivity Services
 	private DatabaseConnectionService dbcs;
@@ -65,6 +66,14 @@ public class UserViewFrame extends JFrame implements ActionListener{
         this.editButton = new JButton("Edit");
         this.editButton.addActionListener(this);
         navPanel.add(this.editButton, editcons);
+        
+        GridBagConstraints anonmodecons = new GridBagConstraints();
+        anonmodecons.weightx = 0;
+        anonmodecons.anchor = GridBagConstraints.EAST;
+        anonmodecons.insets = new Insets(0,0,0,2); //right margin
+        this.anonModeButton = new JButton("Anonymous Mode");
+        this.anonModeButton.addActionListener(this);
+        navPanel.add(this.anonModeButton, anonmodecons);
         
         this.add(navPanel, BorderLayout.NORTH);
 
@@ -136,6 +145,10 @@ public class UserViewFrame extends JFrame implements ActionListener{
 		    this.dispose();
 		    UserEditFrame uef = new UserEditFrame(this.dbcs);
 		    uef.setVisible(true);
+		} else if(arg0.getSource() == this.anonModeButton) {
+			AnonUserSearchFrame ausf = new AnonUserSearchFrame(this.dbcs);
+			ausf.setVisible(true);
+			this.dispose();
 		} else {
 			if(arg0.getSource() == this.viewButton) {
 				this.switchTable();

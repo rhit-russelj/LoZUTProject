@@ -1,5 +1,3 @@
-import javax.swing.JFrame;
-
 import services.DatabaseConnectionService;
 
 public class GUI_Test {
@@ -18,7 +16,8 @@ public class GUI_Test {
 		}
 		
 		//new UserViewFrame(dbcs);
-		new UserEditFrame(dbcs);
+		//new UserEditFrame(dbcs);
+		new AnonUserSearchFrame(dbcs);
 		
 	}
 		

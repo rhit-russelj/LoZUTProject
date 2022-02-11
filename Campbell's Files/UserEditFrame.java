@@ -31,6 +31,7 @@ public class UserEditFrame extends JFrame implements ActionListener{
 	//Components
 	private JButton searchButton;
 	private JButton viewButton;
+	private JButton anonModeButton;
 	private JComboBox<String> gameSelect;
 	private JComboBox<String> nameSelect;
 	private JTextField quantitySelect;
@@ -72,6 +73,14 @@ public class UserEditFrame extends JFrame implements ActionListener{
         this.viewButton = new JButton("View");
         viewButton.addActionListener(this);
         navPanel.add(this.viewButton, editcons);
+        
+        GridBagConstraints anonmodecons = new GridBagConstraints();
+        anonmodecons.weightx = 0;
+        anonmodecons.anchor = GridBagConstraints.EAST;
+        anonmodecons.insets = new Insets(0,0,0,2); //right margin
+        this.anonModeButton = new JButton("Anonymous Mode");
+        this.anonModeButton.addActionListener(this);
+        navPanel.add(this.anonModeButton, anonmodecons);
         
         this.add(navPanel, BorderLayout.NORTH);
         
@@ -161,6 +170,10 @@ public class UserEditFrame extends JFrame implements ActionListener{
 		    UserViewFrame uvf = new UserViewFrame(this.dbcs);
 		    uvf.setVisible(true);
 		    this.dispose();
+		} else if(arg0.getSource() == this.anonModeButton) {
+			AnonUserSearchFrame ausf = new AnonUserSearchFrame(this.dbcs);
+			ausf.setVisible(true);
+			this.dispose();
 		} else {
 			
 			//handle generating game dropdown
