@@ -49,7 +49,250 @@ public class DropdownService {
 		return this.execNameWithGameQuery("SELECT Item.Name \n FROM Item \n JOIN Game ON Item.GameID = Game.ID \n WHERE Game.Name = ?", game);
 	}
 	
-	public ArrayList<String> execNameQuery(String query){
+	public ArrayList<String> getRawGames(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM Game";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(4)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(5)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(6)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public ArrayList<String> getRawQuests(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM Quest";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(4)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(5)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(6)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(7)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(8)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(9)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(10)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawDungeons(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = 	"SELECT Location.ID, [Name] FROM Dungeon \n JOIN [Location] ON Location.ID = Dungeon.ID";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawLocations(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM Location";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(3)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawBosses(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT Boss.EnemyID, NPC.Name, Boss.GameID, Boss.DungeonID FROM Boss JOIN NPC ON NPC.ID = Boss.EnemyID";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(3)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawEnemies(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT Enemy.NPCID, SpawnAreas, Attacks, SpawnRestrictions, Health, Enemy.GameID FROM Enemy JOIN NPC ON NPC.ID = Enemy.NPCID";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(4)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(5)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(6)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawNPCs(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM NPC";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(4)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawRupees(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM Rupee";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(3)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawConsumables(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT Consumable.ID, Name, Effect, Strength, Type FROM Consumable JOIN Item ON Item.ID = Consumable.ID";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(4)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(5)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getRawItems(){
+		ArrayList<String> result = new ArrayList<String>();
+		String query = "SELECT * FROM Item";
+		PreparedStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String addTo = "";
+				addTo = addTo.concat(this.concatWithNulls("", rs.getInt(1)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(2)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getString(3)));
+				addTo = addTo.concat(this.concatWithNulls(",", rs.getInt(4)));
+				result.add(addTo);
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			result = null;
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private String concatWithNulls(String s, Object concat) {
+		if(concat == null) {
+			concat = "";
+		}
+		return s.concat(concat.toString());
+	}
+	
+	private ArrayList<String> execNameQuery(String query){
 		ArrayList<String> result = new ArrayList<String>();
 		PreparedStatement stmt;
 		try {
