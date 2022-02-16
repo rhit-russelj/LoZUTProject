@@ -1,7 +1,10 @@
 package services;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,16 +15,104 @@ import java.util.Scanner;
 
 public class ImportService {
 	
+	private String folderPath;
 	private String[][] loadedData = null;
 	private DatabaseConnectionService dbService = null;
 	
 	public ImportService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Please input the pathname for the folder with the necessary data...");
+		try {
+			this.folderPath = br.readLine();
+		} catch (IOException e) {
+			this.folderPath = null;
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/*
 	 * public methods begin here 
 	 */
+	
+	public String[] getFilesInDirectory() {
+	      File directoryPath = new File(this.folderPath);
+	      
+	      String contents[] = directoryPath.list();
+	      System.out.println("List of files and directories in the specified directory:");
+	      for(int i=0; i<contents.length; i++) {
+	         System.out.println(contents[i]);
+	      }
+	      return contents;
+	}
+	
+	public boolean importDataFromDirectory() {
+		try {
+			//Inefficient becuase we have to keep an order in place:
+			//1.Game
+			//2.Everything else
+			//3.Quest
+			for(String s:this.getFilesInDirectory()) {
+				File f = new File(this.folderPath + "\\" + s);
+				System.out.println(s);
+				if(s.contains("Game")) {
+					if(!this.addGamesFromFile(f)) {
+						System.err.println("Some games were not added correctly!");
+					}
+				}
+			}
+			for(String s:this.getFilesInDirectory()) {
+				File f = new File(this.folderPath + "\\" + s);
+				if(s.contains("Location")) {
+					if(!this.addLocationsFromFile(f)) {
+						System.err.println("Some locations were not added correctly!");
+					}
+				} else if(s.contains("Dungeon")) {
+					if(!this.addDungeonsFromFile(f)) {
+						System.err.println("Some dungeons were not added correctly!");
+					}
+				} else if(s.contains("NPC")) {
+					if(!this.addNPCSFromFile(f)) {
+						System.err.println("Some NPCs were not added correctly!");
+					}
+				} else if(s.contains("Enem")) {
+					if(!this.addEnemiesFromFile(f)) {
+						System.err.println("Some enemies were not added correctly!");
+					}
+				} else if(s.contains("Boss")) {
+					if(!this.addBossesFromFile(f)) {
+						System.err.println("Some bosses were not added correctly!");
+					}
+				} else if(s.contains("Item")) {
+					if(!this.addItemsFromFile(f)) {
+						System.err.println("Some items were not added correctly!");
+					}
+				} else if(s.contains("Consumable")) {
+					if(!this.addConsumablesFromFile(f)) {
+						System.err.println("Some consumables were not added correctly!");
+					}
+				} else if(s.contains("Rupee")) {
+					if(!this.addRupeesFromFile(f)) {
+						System.err.println("Some rupees were not added correctly!");
+					}
+				}
+			}
+			for(String s:this.getFilesInDirectory()) {
+				File f = new File(this.folderPath + "\\" + s);
+				if(s.contains("Quest")) {
+					if(!this.addQuestsFromFile(f)) {
+						System.err.println("Some quests were not added correctly!");
+					}
+				}
+				
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 	
 	public boolean addGamesFromFile(File f) {
 		this.loadData(f);
@@ -313,7 +404,81 @@ public class ImportService {
 		
 	}
 	
-	//TODO Adding Items From File
+	public boolean addItemsFromFile(File f){
+		this.loadData(f);
+		/*
+		 * AddItem:
+		 * 	@name
+		 * 	@description
+		 * 	@game
+		 */
+		String[] tableInfo = this.loadedData[0];
+		int nameIndex = ImportService.findIndexOf(tableInfo, "Name");
+		int descIndex = ImportService.findIndexOf(tableInfo, "Description");
+		int gameIndex = ImportService.findIndexOf(tableInfo, "Game");
+		
+		
+		for(int i=1;i<this.loadedData.length;i++) {
+			String[] currData = this.loadedData[i];
+			if(!this.addItem(currData[nameIndex], currData[descIndex], currData[gameIndex])) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
+	public boolean addRupeesFromFile(File f){
+		this.loadData(f);
+		/*
+		 * AddItem:
+		 * 	@ID
+		 * 	@color
+		 * 	@value
+		 */
+		String[] tableInfo = this.loadedData[0];
+		int colorIndex = ImportService.findIndexOf(tableInfo, "Color");
+		int valueIndex = ImportService.findIndexOf(tableInfo, "Value");
+		int gameIndex = ImportService.findIndexOf(tableInfo, "Game");
+		
+		
+		for(int i=1;i<this.loadedData.length;i++) {
+			String[] currData = this.loadedData[i];
+			if(!this.addRupee(currData[colorIndex], currData[valueIndex], currData[gameIndex])) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
+	public boolean addConsumablesFromFile(File f){
+		this.loadData(f);
+		/*
+		 * AddItem:
+		 * 	@ID
+		 * 	@effect
+		 * 	@strength
+		 * 	@type
+		 */
+		String[] tableInfo = this.loadedData[0];
+		int nameIndex = ImportService.findIndexOf(tableInfo, "Name");
+		int descIndex = ImportService.findIndexOf(tableInfo, "Description");
+		int effectIndex = ImportService.findIndexOf(tableInfo, "Effect");
+		int strIndex = ImportService.findIndexOf(tableInfo, "Strength");
+		int typeIndex = ImportService.findIndexOf(tableInfo, "Type");
+		int gameIndex = ImportService.findIndexOf(tableInfo, "Game");
+		
+		
+		for(int i=1;i<this.loadedData.length;i++) {
+			String[] currData = this.loadedData[i];
+			if(!this.addConsumable(currData[nameIndex], currData[descIndex], currData[effectIndex], currData[strIndex], currData[typeIndex], currData[gameIndex])) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
 	
 	public void loadData(File f) {
 		try {
@@ -339,6 +504,88 @@ public class ImportService {
 	/*
 	 * private methods begin here 
 	 */
+	
+	public boolean addItem(String name, String desc, String game) {
+		String proc = "{? = call AddItem(?,?,?)}";
+		try {
+			CallableStatement cstmt = this.dbService.getConnection().prepareCall(proc);
+			cstmt.setString(2, name);
+			cstmt.setString(3, desc);
+			cstmt.setInt(4,this.getGameID(game));
+			
+			cstmt.registerOutParameter(1, Types.INTEGER);
+			cstmt.execute();
+			int result = cstmt.getInt(1);
+			if(result > 0) {
+				System.out.println("WARNING: Something went wrong in adding " + name + "!");
+			} else {
+				System.out.println("Successfully added " + name + "!");
+			}
+			System.out.println("continuing...");
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("ERROR: Something went wrong in adding the games in this table!");
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean addRupee(String color, String value, String game) {
+		String proc = "{? = call AddRupee(?,?,?)}";
+		try {
+			CallableStatement cstmt = this.dbService.getConnection().prepareCall(proc);
+			if(this.getItemID(color + " Rupee") == -1 ) {
+				this.addItem(color + " Rupee", "A " + color + " rupee", game);
+			}
+			cstmt.setInt(2, this.getItemID(color + " Rupee"));
+			cstmt.setString(3, color);
+			cstmt.setInt(4, Integer.parseInt(value));
+			
+			cstmt.registerOutParameter(1, Types.INTEGER);
+			cstmt.execute();
+			int result = cstmt.getInt(1);
+			if(result > 0) {
+				System.out.println("WARNING: Something went wrong in adding " + color + " Rupee" + "!");
+			} else {
+				System.out.println("Successfully added " + color + " Rupee" + "!");
+			}
+			System.out.println("continuing...");
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("ERROR: Something went wrong in adding the games in this table!");
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean addConsumable(String name, String desc, String effect, String strength, String type, String game) {
+		String proc = "{? = call AddConsumable(?,?,?,?)}";
+		try {
+			CallableStatement cstmt = this.dbService.getConnection().prepareCall(proc);
+			if(this.getItemID(name) == -1 ) {
+				this.addItem(name, desc, game);
+			}
+			cstmt.setInt(2, this.getItemID(name));
+			cstmt.setString(3, effect);
+			cstmt.setInt(4, Integer.parseInt(strength));
+			cstmt.setString(5, type);
+			
+			cstmt.registerOutParameter(1, Types.INTEGER);
+			cstmt.execute();
+			int result = cstmt.getInt(1);
+			if(result > 0) {
+				System.out.println("WARNING: Something went wrong in adding " + name + "!");
+			} else {
+				System.out.println("Successfully added " + name + "!");
+			}
+			System.out.println("continuing...");
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("ERROR: Something went wrong in adding the games in this table!");
+			return false;
+		}
+		return true;
+	}
 	
 	private boolean addLocation(String name, String game) {
 		String proc = "{? = call AddLocation(?,?)}";
