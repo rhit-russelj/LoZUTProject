@@ -99,13 +99,11 @@ public class UserService {
 		//grab data
 		ArrayList<String []> tempdata = new ArrayList<String []>();
 		CallableStatement cstmt;
+		int rownum = 6;
 		try {
 			int userID = getUserID(username);
 			String q = "SELECT * FROM " + funcName + "(" + userID + ")";
 			cstmt = this.dbService.getConnection().prepareCall(q);
-			System.out.println(q);
-//	      cstmt.execute();
-	      int rownum = 6;
 	      ResultSet rv = cstmt.executeQuery();
 			while(rv.next()) {
 				String[] row = new String[rownum];
@@ -119,41 +117,7 @@ public class UserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		SQLServerCallableStatement pStmt;
-//		try {
-//			ResultSet rs = new ResultSet();
-//			pStmt = (SQLServerCallableStatement) this.dbService.getConnection().prepareCall("exec usp_InsertCategories ?");
-//			pStmt.setStructured(1, "dbo.CategoryTableType", rs);
-//			pStmt.execute();  
-//		} catch (SQLException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
-//			
-//			
-//		ArrayList<String []> tempdata = new ArrayList<String []>();
-//		String query = "SELECT * FROM " + funcName + "(?)";
-//		
-//		PreparedStatement stmt;
-//		
-		int rownum = 6;
-//		try {
-//			stmt = this.dbService.getConnection().prepareStatement(query);
-//			stmt.setString(1, String.valueOf(userID));
-//			ResultSet rv = stmt.executeQuery();
-//			while(rv.next()) {
-//				String[] row = new String[rownum];
-//				for(int i=1;i<=rownum;i++) {
-//					row[i-1]=(rv.getString(i));
-//				}
-//				tempdata.add(row);
-//			}
-//			stmt.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.err.println("Something went wrong getting the user views data!");
-//			return null;
-//		}
+	
 		String[][] data = new String[tempdata.size()][rownum];
 		for(int i=0;i<tempdata.size();i++) {
 			data[i] = tempdata.get(i);
