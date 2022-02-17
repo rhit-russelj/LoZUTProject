@@ -66,7 +66,7 @@ public class AdminEditFrame extends JFrame implements ActionListener{
 	    editcons.weightx = 0;
 	    editcons.anchor = GridBagConstraints.EAST;
 	    editcons.insets = new Insets(0,0,0,2); //right margin
-	    this.viewButton = new JButton("View");
+	    this.viewButton = new JButton("Search");
 	    viewButton.addActionListener(this);
 	    navPanel.add(this.viewButton, editcons);
 	    
@@ -952,7 +952,13 @@ public class AdminEditFrame extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		if(arg0.getActionCommand() != null) {
+		if(arg0.getSource() == this.viewButton) {
+		    this.dispose();
+		    AnonUserSearchFrame asf = new AnonUserSearchFrame(this.dbcs);
+		    asf.setVisible(true);
+		}
+		
+		else if(arg0.getActionCommand() != null) {
 			String command;
 			
 			if(arg0.getActionCommand().equals(editModeGroup.getSelection().getActionCommand())) {

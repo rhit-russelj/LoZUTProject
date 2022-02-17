@@ -31,7 +31,6 @@ public class UserEditFrame extends JFrame implements ActionListener{
 	//Components
 	private JButton searchButton;
 	private JButton viewButton;
-	private JButton anonModeButton;
 	private JComboBox<String> gameSelect;
 	private JComboBox<String> nameSelect;
 	private JTextField quantitySelect;
@@ -74,14 +73,6 @@ public class UserEditFrame extends JFrame implements ActionListener{
         viewButton.addActionListener(this);
         navPanel.add(this.viewButton, editcons);
         
-        GridBagConstraints anonmodecons = new GridBagConstraints();
-        anonmodecons.weightx = 0;
-        anonmodecons.anchor = GridBagConstraints.EAST;
-        anonmodecons.insets = new Insets(0,0,0,2); //right margin
-        this.anonModeButton = new JButton("Anonymous Mode");
-        this.anonModeButton.addActionListener(this);
-        navPanel.add(this.anonModeButton, anonmodecons);
-        
         this.add(navPanel, BorderLayout.NORTH);
         
         // now lets define the default size of our window and its layout:
@@ -91,7 +82,7 @@ public class UserEditFrame extends JFrame implements ActionListener{
         getContentPane().add(splitPane);               // due to the GridLayout, our splitPane will now fill the whole window
 
         // let's configure our splitPane:
-        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);  // we want it to split the window vertically
+        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setDividerLocation(250);                    // the initial position of the divider is 250 (our window is 400 pixels high)
         splitPane.setTopComponent(topPanel);                  // at the top we want our "topPanel"
         splitPane.setBottomComponent(bottomPanel);            // and at the bottom we want our "bottomPanel"
@@ -170,10 +161,10 @@ public class UserEditFrame extends JFrame implements ActionListener{
 		    UserViewFrame uvf = new UserViewFrame(this.dbcs);
 		    uvf.setVisible(true);
 		    this.dispose();
-		} else if(arg0.getSource() == this.anonModeButton) {
-			AnonUserSearchFrame ausf = new AnonUserSearchFrame(this.dbcs);
-			ausf.setVisible(true);
-			this.dispose();
+		} else if (arg0.getSource() == this.searchButton) {
+		    AnonUserSearchFrame asf = new AnonUserSearchFrame(this.dbcs);
+		    asf.setVisible(true);
+		    this.dispose();
 		} else {
 			
 			//handle generating game dropdown
