@@ -116,9 +116,9 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
   
         dropdown.addItem("Games");
         dropdown.addItem("Quests");
-//        dropdown.addItem("Items");
-//        dropdown.addItem("Dungeons");
-//        dropdown.addItem("Bosses");
+        dropdown.addItem("Items");
+        dropdown.addItem("Locations");
+        dropdown.addItem("NPCs");
         
         dropdown.setBorder(BorderFactory.createEmptyBorder(20,10,20,10));
         
@@ -156,15 +156,15 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
 			case "Quests":
 				this.scrollPane.setViewportView(this.aservice.grabUserJTable("GeneralQuestInformation"));
 				break;
-//			case "Items":
-//				this.scrollPane.setViewportView(this.uservice.grabUserJTable("UserItems", this.username));
-//				break;
-//			case "Dungeons":
-//				this.scrollPane.setViewportView(this.uservice.grabUserJTable("UserDungeons", this.username));
-//				break;
-//			case "Bosses":
-//				this.scrollPane.setViewportView(this.uservice.grabUserJTable("UserBosses", this.username));
-//				break;
+			case "Items":
+				this.scrollPane.setViewportView(this.aservice.grabUserJTable("GeneralItemInformation"));
+				break;
+			case "Locations":
+				this.scrollPane.setViewportView(this.aservice.grabUserJTable("GeneralLocationInformation"));
+				break;
+			case "NPCs":
+				this.scrollPane.setViewportView(this.aservice.grabUserJTable("GeneralNPCInformation"));
+				break;
 			default:
 				return;
 		}

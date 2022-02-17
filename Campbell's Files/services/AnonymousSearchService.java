@@ -23,6 +23,18 @@ public class AnonymousSearchService {
 		return this.execUserQuery("SELECT * FROM GeneralQuestInformation");
 	}
 	
+	public ArrayList<String> getItems(){
+		return this.execUserQuery("SELECT * FROM GeneralItemInformation");
+	}
+	
+	public ArrayList<String> getLocations(){
+		return this.execUserQuery("SELECT * FROM GeneralLocationInformation");
+	}
+	
+	public ArrayList<String> getNPCs(){
+		return this.execUserQuery("SELECT * FROM GeneralNPCInformation");
+	}
+	
 	public ArrayList<String> execUserQuery(String query){
 		ArrayList<String> result = new ArrayList<String>();
 		PreparedStatement stmt;
@@ -58,6 +70,23 @@ public class AnonymousSearchService {
 							rs.getString("TimelineEra") + ", " +
 							rs.getString("TimelineNumber"));
 				}
+			} else if(query.contains("GeneralItemInformation")) {
+				while(rs.next()) {
+					result.add(rs.getString("Item Name") + ", " +
+							rs.getString("Description") + ", " +
+							rs.getString("Game Name"));
+				}
+			} else if(query.contains("GeneralLocationInformation")) {
+				while(rs.next()) {
+					result.add(rs.getString("Location") + ", " +
+							rs.getString("Game Name"));
+				}
+			} else if(query.contains("GeneralNPCInformation")) {
+				while(rs.next()) {
+					result.add(rs.getString("NPC Name") + ", " +
+							rs.getString("Description") + ", " +
+							rs.getString("Game Name"));
+				}
 			} else {
 				System.err.println("Invalid query in AnonymousSearchService!");
 			}
@@ -83,6 +112,15 @@ public class AnonymousSearchService {
 				break;
 			case "GeneralQuestInformation":
 				rownum = 4;
+				break;
+			case "GeneralItemInformation":
+				rownum = 3;
+				break;
+			case "GeneralLocationInformation":
+				rownum = 2;
+				break;
+			case "GeneralNPCInformation":
+				rownum = 3;
 				break;
 			default:
 				//
@@ -122,6 +160,18 @@ public class AnonymousSearchService {
 			case "GeneralQuestInformation":
 				String[] temp2 = {"Quest Name", "Objective", "Storyline", "Game Name"};
 				columnNames = temp2;
+				break;
+			case "GeneralItemInformation":
+				String[] temp3 = {"Item Name", "Description", "Game Name"};
+				columnNames = temp3;
+				break;
+			case "GeneralLocationInformation":
+				String[] temp4 = {"Location", "Game Name"};
+				columnNames = temp4;
+				break;
+			case "GeneralNPCInformation":
+				String[] temp5 = {"NPC Name", "NPC Desc.", "Game Name"};
+				columnNames = temp5;
 				break;
 			default:
 				break;

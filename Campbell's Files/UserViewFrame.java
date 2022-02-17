@@ -22,6 +22,7 @@ public class UserViewFrame extends JFrame implements ActionListener{
 	private JButton searchButton;
 	private JButton editButton;
 	private JButton anonModeButton;
+	private JButton viewAllInputsButton;
 	
 	//Connectivity Services
 	private DatabaseConnectionService dbcs;
@@ -109,13 +110,19 @@ public class UserViewFrame extends JFrame implements ActionListener{
         cons2.fill = GridBagConstraints.HORIZONTAL;
         cons2.weightx = 0.1;
         
+        GridBagConstraints cons3 = new GridBagConstraints();
+        cons2.fill = GridBagConstraints.HORIZONTAL;
+        cons2.weightx = 0.1;
+        
         bottomPanel.setMinimumSize(new Dimension(0,0));
         topPanel.setMinimumSize(new Dimension(0,250));
         
         //Configure button
         this.viewButton = new JButton("View");
+        this.viewAllInputsButton = new JButton("View all inputs");
         
         viewButton.addActionListener(this);
+        viewAllInputsButton.addActionListener(this);
         
         //Configure dropdown
         dropdown = new JComboBox<String>();
@@ -130,6 +137,7 @@ public class UserViewFrame extends JFrame implements ActionListener{
         
         bottomPanel.add(dropdown, cons);
         bottomPanel.add(viewButton, cons2);
+        bottomPanel.add(viewAllInputsButton, cons3);
         
         //now that the dropdown works, we can switch the table to the selected option
         this.switchTable();
@@ -149,6 +157,8 @@ public class UserViewFrame extends JFrame implements ActionListener{
 			AnonUserSearchFrame ausf = new AnonUserSearchFrame(this.dbcs);
 			ausf.setVisible(true);
 			this.dispose();
+		} else if(arg0.getSource() == this.viewAllInputsButton) {
+			this.funcChangeTable();
 		} else {
 			if(arg0.getSource() == this.viewButton) {
 				this.switchTable();
@@ -157,6 +167,10 @@ public class UserViewFrame extends JFrame implements ActionListener{
 			
 	}
 	
+	private void funcChangeTable() {
+		this.scrollPane.setViewportView(this.uservice.grabUserJTableFunction("UserInputtedInformation", this.username));
+	}
+
 	private void switchTable() {
 		String viewToGet = (String) dropdown.getSelectedItem();
 		switch(viewToGet) {

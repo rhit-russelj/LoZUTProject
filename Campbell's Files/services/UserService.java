@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 
+import com.microsoft.sqlserver.jdbc.SQLServerCallableStatement;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 public class UserService {
 	
 	private DatabaseConnectionService dbService = null;
@@ -92,6 +95,79 @@ public class UserService {
 		return result;
 	}
 
+	public JTable grabUserJTableFunction(String funcName, String username) {
+		//grab data
+		ArrayList<String []> tempdata = new ArrayList<String []>();
+		CallableStatement cstmt;
+		try {
+			int userID = getUserID(username);
+			String q = "SELECT * FROM " + funcName + "(" + userID + ")";
+			cstmt = this.dbService.getConnection().prepareCall(q);
+			System.out.println(q);
+//	      cstmt.execute();
+	      int rownum = 6;
+	      ResultSet rv = cstmt.executeQuery();
+			while(rv.next()) {
+				String[] row = new String[rownum];
+				for(int i=1;i<=rownum;i++) {
+					row[i-1]=(rv.getString(i));
+				}
+				tempdata.add(row);
+			}
+			cstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		SQLServerCallableStatement pStmt;
+//		try {
+//			ResultSet rs = new ResultSet();
+//			pStmt = (SQLServerCallableStatement) this.dbService.getConnection().prepareCall("exec usp_InsertCategories ?");
+//			pStmt.setStructured(1, "dbo.CategoryTableType", rs);
+//			pStmt.execute();  
+//		} catch (SQLException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+//			
+//			
+//		ArrayList<String []> tempdata = new ArrayList<String []>();
+//		String query = "SELECT * FROM " + funcName + "(?)";
+//		
+//		PreparedStatement stmt;
+//		
+		int rownum = 6;
+//		try {
+//			stmt = this.dbService.getConnection().prepareStatement(query);
+//			stmt.setString(1, String.valueOf(userID));
+//			ResultSet rv = stmt.executeQuery();
+//			while(rv.next()) {
+//				String[] row = new String[rownum];
+//				for(int i=1;i<=rownum;i++) {
+//					row[i-1]=(rv.getString(i));
+//				}
+//				tempdata.add(row);
+//			}
+//			stmt.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			System.err.println("Something went wrong getting the user views data!");
+//			return null;
+//		}
+		String[][] data = new String[tempdata.size()][rownum];
+		for(int i=0;i<tempdata.size();i++) {
+			data[i] = tempdata.get(i);
+		}
+		
+		//grab column names
+		String[] columnNames = {"Username", "Game Name", "Game System", "Item Name", "BossID", "Quest Name"};
+		
+		//create and return JTable
+		return new JTable(data, columnNames);
+	}
+	
+	
+	
 	/**
 	 * returns a JTable object with the information needed for a specified user view
 	 * @param viewName - name of the view
