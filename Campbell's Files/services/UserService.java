@@ -99,7 +99,7 @@ public class UserService {
 		//grab data
 		ArrayList<String []> tempdata = new ArrayList<String []>();
 		CallableStatement cstmt;
-		int rownum = 6;
+		int rownum = 7;
 		try {
 			int userID = getUserID(username);
 			String q = "SELECT * FROM " + funcName + "(" + userID + ")";
@@ -124,7 +124,7 @@ public class UserService {
 		}
 		
 		//grab column names
-		String[] columnNames = {"Username", "Game Name", "Game System", "Item Name", "BossID", "Quest Name"};
+		String[] columnNames = {"Username", "Game Name", "Game System", "Item Name", "Defeated", "Boss", "Quest Name"};
 		
 		//create and return JTable
 		return new JTable(data, columnNames);
