@@ -18,8 +18,8 @@ public class DatabaseConnectionService {
 		this.databaseName = databaseName;
 	}
 
-	public boolean connect(String user, String pass) {
-		this.currentUsername = user;
+	public boolean connect(String actualUsername, String user, String pass) {
+		this.currentUsername = actualUsername;
 		String finalURL = SampleURL
 							.replace("${dbServer}", this.serverName)
 							.replace("${dbName}", this.databaseName)
