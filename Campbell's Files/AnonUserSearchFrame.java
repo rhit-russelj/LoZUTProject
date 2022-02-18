@@ -40,6 +40,7 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
 	private JScrollPane scrollPane = null;
 	private JButton userModeButton;
 	private JButton viewButton;
+	private JButton adminButton;
 	
 	public AnonUserSearchFrame(DatabaseConnectionService dbcs){
 		//Set up connectivity
@@ -88,6 +89,14 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
         this.userModeButton = new JButton("User Mode");
         this.userModeButton.addActionListener(this);
         navPanel.add(this.userModeButton, usermodecons);
+        
+        GridBagConstraints adminButtoncons = new GridBagConstraints();
+        adminButtoncons.weightx = 0;
+        adminButtoncons.anchor = GridBagConstraints.EAST;
+        adminButtoncons.insets = new Insets(0,0,0,2); //right margin
+        this.adminButton = new JButton("Admin Mode");
+        this.adminButton.addActionListener(this);
+        navPanel.add(this.adminButton, adminButtoncons);
         
         this.scrollPane = new JScrollPane();
      
@@ -139,6 +148,10 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
 		    this.dispose();
 		    UserEditFrame uef = new UserEditFrame(this.dbcs);
 		    uef.setVisible(true);
+		} else if(arg0.getSource() == this.adminButton) {
+			this.dispose();
+			AdminEditFrame aef = new AdminEditFrame(this.dbcs);
+			aef.setVisible(true);
 		} else {
 			if(arg0.getSource() == this.viewButton) {
 				this.switchTable();

@@ -8,7 +8,7 @@ public class GUI_Test {
 		
 		String user = "garvinac";
 		String pass = "sequelsql94";
-		if(dbcs.connect(user, pass)) {
+		if(dbcs.connect("testuser1", user, pass)) {
 			System.out.println("connection success");
 		} else {
 			System.out.println("connection failed");
