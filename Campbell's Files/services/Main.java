@@ -8,35 +8,23 @@ public class Main {
 	public static void main(String[] args) {
 		
 		String servername = "titan.csse.rose-hulman.edu";
-		String dbname = "LoZUTracker";
+		String dbname = "LoZUTrackerDemo";
 		DatabaseConnectionService dbcs = new DatabaseConnectionService(servername, dbname);
 		
 		String user = "garvinac";
 		String pass = "sequelsql94";
-		if(dbcs.connect(user, pass)) {
+		if(dbcs.connect("testuser1", user, pass)) {
 			System.out.println("connection success");
 		} else {
 			System.out.println("connection failed");
 			return;
 		}
 		
-		UserService us = new UserService(dbcs);
-		System.out.println(us.getDungeonID("Divine Beast Vah Medoh", "Breath of the Wild"));
-		/*
-		String fname = "C:\\Users\\garvinac\\Downloads\\location.csv";
-		File f = new File(fname);
+		//UserService us = new UserService(dbcs);
+		
 		
 		ImportService is = new ImportService(dbcs);
-		is.loadData(f);
-		
-		for(String[] sarr : is.getData()) {
-			for(String s : sarr) {
-				System.out.println(s);
-			}
-		}
-		
-		is.addBossesFromFile(f);
-		*/
+		is.importDataFromDirectory();
 		/*
 		 * tests for userService
 		 * 
@@ -78,12 +66,13 @@ public class Main {
 		/*
 		DropdownService dds = new DropdownService(dbcs);
 		System.out.println("");
-		System.out.println("Games in system");
-		ArrayList<String> list6 = dds.getGames();
+		System.out.println("Quests in system");
+		ArrayList<String> list6 = dds.getRawQuests();
 		for(String s:list6) {
 			System.out.println(s);
 		}
 		*/
+		
 		/*
 		System.out.println("");
 		System.out.println("Dungeons in system");

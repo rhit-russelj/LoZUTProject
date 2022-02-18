@@ -41,10 +41,12 @@ public class ImportService {
 	      File directoryPath = new File(this.folderPath);
 	      
 	      String contents[] = directoryPath.list();
+	      /*
 	      System.out.println("List of files and directories in the specified directory:");
 	      for(int i=0; i<contents.length; i++) {
 	         System.out.println(contents[i]);
 	      }
+	      */
 	      return contents;
 	}
 	
@@ -64,6 +66,7 @@ public class ImportService {
 				}
 			}
 			for(String s:this.getFilesInDirectory()) {
+				System.out.printf(s);
 				File f = new File(this.folderPath + "\\" + s);
 				if(s.contains("Location")) {
 					if(!this.addLocationsFromFile(f)) {
@@ -109,6 +112,7 @@ public class ImportService {
 				
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -157,6 +161,7 @@ public class ImportService {
 			}catch (IndexOutOfBoundsException e) {
 				e.printStackTrace();
 				System.err.println("WARNING: End of file!");
+				return true;
 			}
 		}
 		
@@ -241,6 +246,7 @@ public class ImportService {
 			}catch (IndexOutOfBoundsException e) {
 				e.printStackTrace();
 				System.err.println("WARNING: End of file!");
+				return true;
 			}
 		}
 		
@@ -398,6 +404,7 @@ public class ImportService {
 			}catch (IndexOutOfBoundsException e) {
 				e.printStackTrace();
 				System.err.println("WARNING: End of file!");
+				return true;
 			}
 		}
 		return true;
@@ -644,6 +651,7 @@ public class ImportService {
 		}catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			System.err.println("WARNING: End of file!");
+			return true;
 		}
 		return true;
 	}

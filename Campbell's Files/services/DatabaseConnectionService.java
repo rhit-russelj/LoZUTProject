@@ -12,6 +12,7 @@ public class DatabaseConnectionService {
 	private String serverName;
 	
 	private String currentUsername;
+	private boolean isUser;
 
 	public DatabaseConnectionService(String serverName, String databaseName) {
 		this.serverName = serverName;
@@ -20,6 +21,7 @@ public class DatabaseConnectionService {
 
 	public boolean connect(String actualUsername, String user, String pass) {
 		this.currentUsername = actualUsername;
+		this.isUser = (user == "LegendZ");
 		String finalURL = SampleURL
 							.replace("${dbServer}", this.serverName)
 							.replace("${dbName}", this.databaseName)
@@ -49,5 +51,9 @@ public class DatabaseConnectionService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isUser() {
+		return this.isUser;
 	}
 }
