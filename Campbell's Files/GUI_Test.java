@@ -6,9 +6,10 @@ public class GUI_Test {
 		String dbname = "LoZUTracker";
 		DatabaseConnectionService dbcs = new DatabaseConnectionService(servername, dbname);
 		
+		String username = "jacobofficial";
 		String user = "garvinac";
 		String pass = "sequelsql94";
-		if(dbcs.connect("testuser1", user, pass)) {
+		if(dbcs.connect(username, user, pass)) {
 			System.out.println("connection success");
 		} else {
 			System.out.println("connection failed");
@@ -17,6 +18,7 @@ public class GUI_Test {
 		
 		//new UserViewFrame(dbcs);
 		//new UserEditFrame(dbcs);
+		//new AdminEditFrame(dbcs);
 		new AnonUserSearchFrame(dbcs);
 		
 	}

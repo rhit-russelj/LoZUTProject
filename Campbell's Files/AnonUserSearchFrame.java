@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -149,9 +150,13 @@ public class AnonUserSearchFrame extends JFrame implements ActionListener{
 		    UserEditFrame uef = new UserEditFrame(this.dbcs);
 		    uef.setVisible(true);
 		} else if(arg0.getSource() == this.adminButton) {
-			this.dispose();
-			AdminEditFrame aef = new AdminEditFrame(this.dbcs);
-			aef.setVisible(true);
+			if(this.dbcs.isUser()) {
+				JOptionPane.showMessageDialog(null, "ERROR: Must have admin permissions");
+			} else {
+				this.dispose();
+				AdminEditFrame aef = new AdminEditFrame(this.dbcs);
+				aef.setVisible(true);
+			}
 		} else {
 			if(arg0.getSource() == this.viewButton) {
 				this.switchTable();
